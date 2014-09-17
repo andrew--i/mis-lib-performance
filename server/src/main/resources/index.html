@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+    <title>Макет различных систем сборки клиента</title>
+    <meta name="google" content="notranslate"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="cache-control" content="max-age=0"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="expires" content="0"/>
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+
+    <script type="text/javascript" src="swfobject.js"></script>
+    <script type="text/javascript">
+        // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection.
+        var swfVersionStr = "11.1.0";
+        // To use express install, set to playerProductInstall.swf, otherwise the empty string.
+        var xiSwfUrlStr = "${expressInstallSwf}";
+        var flashvars = {};
+        var params = {};
+        params.quality = "high";
+        params.bgcolor = "#FFFFFF";
+        params.allowScriptAccess = "always";
+        params.allowFullScreen = "true";
+        params.wmode = "direct";
+        var attributes = {};
+        attributes.id = "mis";
+        attributes.name = "MIS";
+        attributes.align = "middle";
+
+        swfobject.embedSWF("core.swf", "flashContent", "100%", "100%",
+                swfVersionStr, xiSwfUrlStr,
+                flashvars, params, attributes, function (e) {
+                    if (e.success) document.getElementById('mis').focus()
+                });
+        // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
+        swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+
+    </script>
+
+
+</head>
+<body>
+<div id="flashContent" class="wrapper">
+    <div class="outer_div">
+        <div class="inner_div">
+            <p>
+                Чтобы посмотреть эту страницу требуется установить Adobe Flash Player версии
+                11.1.0 или выше.
+            </p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
