@@ -16,7 +16,9 @@ object Server {
 
 class Service extends HttpServiceActor {
   override def receive: Receive = runRoute(route)
+
   private val indexPath = path("") | path("index.html")
+
   def route: Route = {
     indexPath {
       get {
@@ -25,22 +27,19 @@ class Service extends HttpServiceActor {
         }
       }
     } ~
-      path("swfobject.js") {
-        get {
-          getFromFile("resources/swfobject.js")
-        }
-      } ~
       path("rsls" / Rest) { resource ⇒
         get {
           getFromFile("resources/" + resource)
         }
-      } ~
+      } ~ path("history" / Rest) { resource ⇒
+      get {
+        getFromFile("resources/history" + resource)
+      }
+    } ~
       path(Rest) { resource ⇒
         get {
-          if (resource.endsWith("swc") || resource.endsWith("swf"))
-            getFromFile("resources/" + resource)
-          else
-            complete("resource " + resource + "does not exist")
+          getFromFile("resources/" + resource)
+
         }
       }
   }

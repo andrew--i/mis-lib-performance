@@ -10,10 +10,10 @@
   </s:HGroup>
   <mx:ViewStack width="100%" height="100%" id="moduleStack">
     <s:NavigatorContent width="100%" height="100%">
-      <s:ModuleLoader width="100%" height="100%" url="m1.swf"/>
+      <s:ModuleLoader width="100%" height="100%" url="m1.swf?t"/>
     </s:NavigatorContent>
     <s:NavigatorContent width="100%" height="100%">
-      <s:ModuleLoader width="100%" height="100%" url="m2.swf"/>
+      <s:ModuleLoader width="100%" height="100%" url="m2.swf?t"/>
     </s:NavigatorContent>
   </mx:ViewStack>
   <fx:Script><![CDATA[
