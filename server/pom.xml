@@ -25,7 +25,7 @@
               <goal>copy</goal>
             </goals>
             <configuration>
-              <outputDirectory>src/main/resources/</outputDirectory>
+              <outputDirectory>resources/</outputDirectory>
               <artifactItems>
                 <artifactItem>
                   <groupId>org.apache.flex.framework</groupId>

@@ -13,6 +13,21 @@
 
   <artifactId>current-client-m2</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>swf</packaging>
 
-
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>net.flexmojos.oss</groupId>
+        <artifactId>flexmojos-maven-plugin</artifactId>
+        <configuration>
+          <sourceFile>./mis/Module2.mxml</sourceFile>
+          <finalName>m2</finalName>
+          <useFinalName>true</useFinalName>
+          <storepass />
+          <classifier>m2</classifier>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

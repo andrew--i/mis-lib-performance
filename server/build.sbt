@@ -1,4 +1,4 @@
-name := "apikeeper"
+name := "mis-lib-performance-server"
 
 version := "1.0"
 
@@ -9,6 +9,10 @@ val specs2Version = "2.3.13"
 
 
 resolvers += "spray repo" at "http://repo.spray.io"
+
+javacOptions += "-Xmx1G"
+
+javacOptions += "-Xms512M"
 
 libraryDependencies ++= Seq(
   "io.spray" %% "spray-can" % sprayVersion,

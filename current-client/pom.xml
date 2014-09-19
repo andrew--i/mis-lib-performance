@@ -91,7 +91,7 @@
                 <goal>copy-resources</goal>
               </goals>
               <configuration>
-                <outputDirectory>${project.basedir}/../../server/src/main/resources</outputDirectory>
+                <outputDirectory>${project.basedir}/../../server/resources</outputDirectory>
                 <resources>
                   <resource>
                     <directory>${basedir}/target</directory>

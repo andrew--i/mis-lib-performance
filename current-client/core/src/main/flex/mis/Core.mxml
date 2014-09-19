@@ -1,4 +1,27 @@
 <?xml version="1.0"?>
-<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark">
-  <s:Label text="Hello World"/>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx">
+  <s:layout>
+    <s:VerticalLayout/>
+  </s:layout>
+  <s:HGroup>
+    <s:Button label="Module 1" click="tabButtonClickHandler(event)" id="tabButton1"/>
+    <s:Button label="Module 2" click="tabButtonClickHandler(event)" id="tabButton2"/>
+  </s:HGroup>
+  <mx:ViewStack width="100%" height="100%" id="moduleStack">
+    <s:NavigatorContent>
+      <s:ModuleLoader width="100%" height="100%" url="m1.swf"/>
+    </s:NavigatorContent>
+    <s:NavigatorContent>
+      <s:ModuleLoader width="100%" height="100%" url="m2.swf"/>
+    </s:NavigatorContent>
+  </mx:ViewStack>
+  <fx:Script><![CDATA[
+    private function tabButtonClickHandler(event:MouseEvent):void {
+      if (event.target == tabButton1)
+        moduleStack.selectedIndex = 0;
+      else if (event.target == tabButton2)
+        moduleStack.selectedIndex = 1
+    }
+    ]]></fx:Script>
 </s:Application>
