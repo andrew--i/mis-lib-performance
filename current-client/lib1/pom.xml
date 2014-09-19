@@ -12,6 +12,6 @@
 
   <artifactId>current-client-lib1</artifactId>
   <version>1.0-SNAPSHOT</version>
-
+  <packaging>swc</packaging>
 
 </project>

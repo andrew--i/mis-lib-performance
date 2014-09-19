@@ -29,4 +29,13 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+    <dependency>
+      <groupId>mis</groupId>
+      <artifactId>current-client-lib1</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <type>swc</type>
+      <scope>external</scope>
+    </dependency>
+  </dependencies>
 </project>
