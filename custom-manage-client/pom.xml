@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>mis</groupId>
+  <artifactId>client-perfomance-custom</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <modules>
+    <module>core</module>
+    <module>lib1</module>
+    <module>lib2</module>
+    <module>m1</module>
+    <module>m2</module>
+  </modules>
+
+
+  <properties>
+    <flex.sdk.version>4.13.0.20140701</flex.sdk.version>
+    <playerglobal.version>11.9</playerglobal.version>
+    <flexmojos.version>7.0.0</flexmojos.version>
+    <flexunit.version>4.0-rc-1</flexunit.version>
+    <flex.tlf.version>2.0.0.232</flex.tlf.version>
+    <flex.osmf.version>1.0.0.16316</flex.osmf.version>
+    <granite.version>3.1.0.M1</granite.version>
+
+    <mis.flex.sdk.scope>rsl</mis.flex.sdk.scope>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <mis.debug.mode>true</mis.debug.mode>
+  </properties>
+
+  <build>
+    <sourceDirectory>src/main/flex</sourceDirectory>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>net.flexmojos.oss</groupId>
+          <artifactId>flexmojos-maven-plugin</artifactId>
+          <version>${flexmojos.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.flex</groupId>
+              <artifactId>compiler</artifactId>
+              <version>${flex.sdk.version}</version>
+              <type>pom</type>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.flex.compiler</groupId>
+              <artifactId>flex-messaging-common</artifactId>
+              <version>${flex.sdk.version}</version>
+              <type>jar</type>
+            </dependency>
+          </dependencies>
+          <extensions>true</extensions>
+          <configuration>
+            <swfVersion>22</swfVersion>
+            <debug>${mis.debug.mode}</debug>
+            <showWarnings>false</showWarnings>
+
+            <contextRoot>/</contextRoot>
+            <storepass/>
+            <rslUrls>
+              <url>rsls/{artifactId}-{version}.{extension}</url>
+            </rslUrls>
+            <localesCompiled>
+              <locale>ru_RU</locale>
+            </localesCompiled>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.3</version>
+          <configuration>
+            <relativizeDecorationLinks>false</relativizeDecorationLinks>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.6</version>
+          <executions>
+            <execution>
+              <id>copy-resources</id>
+              <phase>compile</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${project.basedir}/../../server/resources</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>${basedir}/target</directory>
+                    <includes>
+                      <include>**/*.swf</include>
+                      <include>**/*.swc</include>
+                    </includes>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>net.flexmojos.oss</groupId>
+        <artifactId>flexmojos-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.flex.framework</groupId>
+      <artifactId>framework</artifactId>
+      <version>${flex.sdk.version}</version>
+      <type>swc</type>
+      <scope>${mis.flex.sdk.scope}</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.flex.framework</groupId>
+      <artifactId>textLayout</artifactId>
+      <version>${flex.sdk.version}</version>
+      <type>swc</type>
+      <scope>${mis.flex.sdk.scope}</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.flex.framework</groupId>
+      <artifactId>spark</artifactId>
+      <version>${flex.sdk.version}</version>
+      <type>swc</type>
+      <scope>${mis.flex.sdk.scope}</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.flex.framework</groupId>
+      <artifactId>sparkskins</artifactId>
+      <version>${flex.sdk.version}</version>
+      <type>swc</type>
+      <scope>${mis.flex.sdk.scope}</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.flex.framework</groupId>
+      <artifactId>rpc</artifactId>
+      <version>${flex.sdk.version}</version>
+      <type>swc</type>
+      <scope>${mis.flex.sdk.scope}</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.flex.framework</groupId>
+      <artifactId>charts</artifactId>
+      <version>${flex.sdk.version}</version>
+      <type>swc</type>
+      <scope>${mis.flex.sdk.scope}</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.flex.framework</groupId>
+      <artifactId>spark_dmv</artifactId>
+      <version>${flex.sdk.version}</version>
+      <type>swc</type>
+      <scope>${mis.flex.sdk.scope}</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.flex.framework</groupId>
+      <artifactId>mx</artifactId>
+      <version>${flex.sdk.version}</version>
+      <type>swc</type>
+      <scope>${mis.flex.sdk.scope}</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.flex.framework</groupId>
+      <artifactId>advancedgrids</artifactId>
+      <version>${flex.sdk.version}</version>
+      <type>swc</type>
+      <scope>${mis.flex.sdk.scope}</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.flex.framework</groupId>
+      <artifactId>flex-framework</artifactId>
+      <version>${flex.sdk.version}</version>
+      <type>pom</type>
+    </dependency>
+
+    <dependency>
+      <groupId>com.adobe.flash.framework</groupId>
+      <artifactId>playerglobal</artifactId>
+      <version>${playerglobal.version}</version>
+      <type>swc</type>
+    </dependency>
+  </dependencies>
+
+</project>

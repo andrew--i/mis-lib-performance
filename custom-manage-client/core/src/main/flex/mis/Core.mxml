@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx">
+  <s:layout>
+    <s:VerticalLayout/>
+  </s:layout>
+  <s:HGroup>
+    <s:Button label="Module 1" click="tabButtonClickHandler(event)" id="tabButton1"/>
+    <s:Button label="Module 2" click="tabButtonClickHandler(event)" id="tabButton2"/>
+  </s:HGroup>
+  <mx:ViewStack width="100%" height="100%" id="moduleStack">
+    <s:NavigatorContent width="100%" height="100%" id="module1Content"/>
+    <s:NavigatorContent width="100%" height="100%" id="module2Content"/>
+  </mx:ViewStack>
+  <fx:Script><![CDATA[
+    import mis.dependency.ModuleManager;
+
+    private function tabButtonClickHandler(event:MouseEvent):void {
+      if (event.target == tabButton1) {
+        moduleStack.selectedIndex = 0;
+        ModuleManager.instance.loadModule(module1Content, "m1.swf")
+      }
+      else if (event.target == tabButton2) {
+        moduleStack.selectedIndex = 1;
+        ModuleManager.instance.loadModule(module1Content, "m2.swf")
+      }
+    }
+    ]]></fx:Script>
+</s:Application>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>mis</groupId>
+    <artifactId>client-perfomance-custom</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>custom-client-m1</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>swf</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>net.flexmojos.oss</groupId>
+        <artifactId>flexmojos-maven-plugin</artifactId>
+        <configuration>
+          <sourceFile>./mis/Module1.mxml</sourceFile>
+          <finalName>m1</finalName>
+          <useFinalName>true</useFinalName>
+          <storepass />
+          <classifier>m1</classifier>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>mis</groupId>
+      <artifactId>custom-client-lib1</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <type>swc</type>
+      <scope>external</scope>
+    </dependency>
+  </dependencies>
+</project>
