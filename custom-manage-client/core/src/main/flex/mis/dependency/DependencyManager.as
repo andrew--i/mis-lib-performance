@@ -2,72 +2,51 @@
  * Created by Andrew on 19.09.2014.
  */
 package mis.dependency {
-import flash.display.LoaderInfo;
 import flash.events.Event;
-import flash.events.IOErrorEvent;
 
-import mis.dependency.domain.DependencyContext;
 import mis.dependency.domain.DependencyItem;
 import mis.dependency.domain.DependencyLibItem;
 import mis.dependency.domain.DependencyMap;
+import mis.dependency.domain.context.ModuleDependencyContext;
 import mis.dependency.loader.DependencyLibLoader;
-import mis.dependency.loader.DependencyMapLoader;
+import mis.dependency.loader.ModuleDependencyMapLoader;
 
 public class DependencyManager {
 
   private var loadedLibs:Vector.<DependencyLibItem> = new <DependencyLibItem>[];
   private var dependenciesMaps:Vector.<DependencyMap> = new <DependencyMap>[];
 
-  public function checkModuleDependency(dependencyContext:DependencyContext):void {
+  public function checkModuleDependency(dependencyContext:ModuleDependencyContext):void {
     var moduleDepsMap:DependencyMap = getDependencyMapForModule(dependencyContext.moduleName);
     if (moduleDepsMap != null) {
-      waitingForDepsLoading(moduleDepsMap, dependencyContext);
+      waitingForDependenciesLoading(moduleDepsMap, dependencyContext);
     } else {
       loadDependencyMap(dependencyContext);
     }
   }
 
-  private function loadDependencyMap(dependencyContext:DependencyContext):void {
-    var urlLoader:DependencyMapLoader = new DependencyMapLoader(dependencyContext);
-    urlLoader.addEventListener(Event.COMPLETE, dependencyMapLoadComplete);
-    urlLoader.addEventListener(IOErrorEvent.IO_ERROR, dependencyMapLoadError);
+  private function loadDependencyMap(dependencyContext:ModuleDependencyContext):void {
+    var urlLoader:ModuleDependencyMapLoader = new ModuleDependencyMapLoader(dependencyContext);
+    urlLoader.addEventListener(ModuleDependencyMapLoader.MODULE_DEPENDENCY_READY, urlLoader_MODULE_DEPENDENCY_READYHandler);
     urlLoader.loadDependencyMap()
   }
 
-  private function dependencyMapLoadError(event:IOErrorEvent):void {
-    trace("can`t load module dependency map: " + event.text);
-    var dependencyMapLoader:DependencyMapLoader = DependencyMapLoader(event.target);
-    dependencyMapLoader.removeEventListener(Event.COMPLETE, dependencyMapLoadComplete);
-    dependencyMapLoader.removeEventListener(IOErrorEvent.IO_ERROR, dependencyMapLoadError);
-
-  }
-
-  private function dependencyMapLoadComplete(event:Event):void {
-    var dependencyMapLoader:DependencyMapLoader = DependencyMapLoader(event.target);
-    dependencyMapLoader.removeEventListener(Event.COMPLETE, dependencyMapLoadComplete);
-    dependencyMapLoader.removeEventListener(IOErrorEvent.IO_ERROR, dependencyMapLoadError);
-
-    var dependencyJSONMap:Array = Array(JSON.parse(dependencyMapLoader.data));
-
-    var dependencyContext:DependencyContext = dependencyMapLoader.dependencyContext;
-    var dependencyMap:DependencyMap = new DependencyMap(dependencyContext.moduleName);
-    for each (var objects:Array in dependencyJSONMap) {
-      for each (var item:* in objects) {
-        var dependencyItem:DependencyItem = new DependencyItem(item.artifactId, item.version);
-        dependencyMap.addDependencyItem(dependencyItem);
-      }
-    }
+  private function urlLoader_MODULE_DEPENDENCY_READYHandler(event:Event):void {
+    var moduleDependencyMapLoader:ModuleDependencyMapLoader = ModuleDependencyMapLoader(event.target);
+    moduleDependencyMapLoader.removeEventListener(ModuleDependencyMapLoader.MODULE_DEPENDENCY_READY, urlLoader_MODULE_DEPENDENCY_READYHandler);
+    var dependencyMap:DependencyMap = moduleDependencyMapLoader.dependencyMap;
     dependenciesMaps.push(dependencyMap);
-    waitingForDepsLoading(dependencyMap, dependencyContext)
+    waitingForDependenciesLoading(dependencyMap, moduleDependencyMapLoader.dependencyContext)
   }
 
-  private function waitingForDepsLoading(moduleDepsMap:DependencyMap, dependencyContext:DependencyContext):void {
-    var dependencyItems:Vector.<DependencyItem> = moduleDepsMap.dependencyItems;
+  private function waitingForDependenciesLoading(moduleDependenciesMap:DependencyMap, dependencyContext:ModuleDependencyContext):void {
+    var dependencyItems:Vector.<DependencyItem> = moduleDependenciesMap.dependencyItems;
     var loadedLibsCount:uint = 0;
     for each (var item:DependencyItem in dependencyItems) {
       var dependencyLibItem:DependencyLibItem = getDependencyLibItem(item);
       if (dependencyLibItem == null) {
-        loadDependencyLibItem(item, dependencyContext)
+        loadDependencyLibAsDependencyMap(item, dependencyContext);
+
       } else {
         if (dependencyLibItem.isLoading)
           dependencyLibItem.addCompleteLoadingHandler(dependencyLibItemCompleteHandler, dependencyContext);
@@ -81,11 +60,16 @@ public class DependencyManager {
 
   }
 
-  private function dependencyLibItemCompleteHandler(dependencyContext:DependencyContext):void {
+  private function loadDependencyLibAsDependencyMap(item:DependencyItem, dependencyContext:ModuleDependencyContext):void {
+//    todo implement
+//    loadDependencyMap()
+  }
+
+  private function dependencyLibItemCompleteHandler(dependencyContext:ModuleDependencyContext):void {
     checkModuleDependency(dependencyContext);
   }
 
-  private function loadDependencyLibItem(dependencyItem:DependencyItem, dependencyContext:DependencyContext):void {
+  private function loadDependencyLibItem(dependencyItem:DependencyItem, dependencyContext:ModuleDependencyContext):void {
     var dependencyLibItem:DependencyLibItem = new DependencyLibItem(dependencyItem.artifactId, dependencyItem.version);
     loadedLibs.push(dependencyLibItem);
     dependencyLibItem.addCompleteLoadingHandler(dependencyLibItemCompleteHandler, dependencyContext);
@@ -109,5 +93,7 @@ public class DependencyManager {
     }
     return null;
   }
+
+
 }
 }

@@ -2,6 +2,8 @@
  * Created by Andrew on 22.09.2014.
  */
 package mis.dependency.domain {
+import mis.dependency.domain.context.ModuleDependencyContext;
+
 public class DependencyLibItem extends DependencyItem {
   private var _isLoading:Boolean = false;
   private var _isLoaded:Boolean = false;
@@ -25,7 +27,7 @@ public class DependencyLibItem extends DependencyItem {
     return item.artifactId == artifactId && item.version == version;
   }
 
-  public function addCompleteLoadingHandler(dependencyLibItemCompleteHandler:Function, dependencyContext:DependencyContext):void {
+  public function addCompleteLoadingHandler(dependencyLibItemCompleteHandler:Function, dependencyContext:ModuleDependencyContext):void {
     completeHandlers.push({handler: dependencyLibItemCompleteHandler, arg: dependencyContext})
   }
 

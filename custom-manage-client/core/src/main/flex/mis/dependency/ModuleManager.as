@@ -2,7 +2,7 @@
  * Created by Andrew on 19.09.2014.
  */
 package mis.dependency {
-import mis.dependency.domain.DependencyContext;
+import mis.dependency.domain.context.ModuleDependencyContext;
 
 import mx.core.IVisualElementContainer;
 import mx.events.ModuleEvent;
@@ -36,10 +36,10 @@ public class ModuleManager {
     var loadedModule:ModuleLoader = getLoadedModule(moduleName);
     if (loadedModule != null)
       return;
-    dependencyManager.checkModuleDependency(new DependencyContext(moduleName, toContainer, loadModuleToApp))
+    dependencyManager.checkModuleDependency(new ModuleDependencyContext(moduleName, toContainer, loadModuleToApp))
   }
 
-  private function loadModuleToApp(dependencyContext:DependencyContext) {
+  private function loadModuleToApp(dependencyContext:ModuleDependencyContext) {
     var moduleLoader:ModuleLoader = new ModuleLoader();
     addLoadedModule(dependencyContext.moduleName, moduleLoader);
     moduleLoader.addEventListener(ModuleEvent.ERROR, moduleLoader_errorHandler);
