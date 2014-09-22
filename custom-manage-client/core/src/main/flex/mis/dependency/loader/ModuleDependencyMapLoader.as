@@ -9,13 +9,14 @@ import flash.net.URLRequest;
 
 import mis.dependency.domain.DependencyItem;
 import mis.dependency.domain.DependencyMap;
+import mis.dependency.domain.context.DependencyContext;
 import mis.dependency.domain.context.ModuleDependencyContext;
 
 public class ModuleDependencyMapLoader extends URLLoader {
-  public static const MODULE_DEPENDENCY_READY:String = "MODULE_DEPENDENCY_READY";
+  public static const MAP_DEPENDENCY_READY:String = "MODULE_DEPENDENCY_READY";
 
-  private var _dependencyContext:ModuleDependencyContext;
-  private var _dependencyMap:DependencyMap;
+  protected var _dependencyContext:DependencyContext;
+  protected var _dependencyMap:DependencyMap;
 
 
   public function get dependencyMap():DependencyMap {
@@ -26,31 +27,30 @@ public class ModuleDependencyMapLoader extends URLLoader {
     _dependencyContext = dependencyContext;
   }
 
-  public function get dependencyContext():ModuleDependencyContext {
+  public function get dependencyContext():DependencyContext {
     return _dependencyContext;
   }
 
 
   public function loadDependencyMap():void {
     var urlRequest:URLRequest = new URLRequest("dependencyMap/" + dependencyContext.moduleName + "-depsmap.json");
+    addEventListener(Event.COMPLETE, dependencyMapLoadComplete);
+    addEventListener(IOErrorEvent.IO_ERROR, dependencyMapLoadError);
     load(urlRequest)
   }
 
 
-  private function dependencyMapLoadError(event:IOErrorEvent):void {
+  protected function dependencyMapLoadError(event:IOErrorEvent):void {
     trace("can`t load module dependency map: " + event.text);
-    var dependencyMapLoader:ModuleDependencyMapLoader = ModuleDependencyMapLoader(event.target);
-    dependencyMapLoader.removeEventListener(Event.COMPLETE, dependencyMapLoadComplete);
-    dependencyMapLoader.removeEventListener(IOErrorEvent.IO_ERROR, dependencyMapLoadError);
+    var dependencyMapLoader:URLLoader = URLLoader(event.target);
+    removeListeners(dependencyMapLoader);
   }
 
-  private function dependencyMapLoadComplete(event:Event):void {
+  protected function dependencyMapLoadComplete(event:Event):void {
     var dependencyMapLoader:ModuleDependencyMapLoader = ModuleDependencyMapLoader(event.target);
-    dependencyMapLoader.removeEventListener(Event.COMPLETE, dependencyMapLoadComplete);
-    dependencyMapLoader.removeEventListener(IOErrorEvent.IO_ERROR, dependencyMapLoadError);
-
+    removeListeners(dependencyMapLoader);
     var dependencyJSONMap:Array = Array(JSON.parse(dependencyMapLoader.data));
-    var dependencyContext:ModuleDependencyContext = dependencyMapLoader.dependencyContext;
+    var dependencyContext:DependencyContext = dependencyMapLoader.dependencyContext;
     var dependencyMap:DependencyMap = new DependencyMap(dependencyContext.moduleName);
     for each (var objects:Array in dependencyJSONMap) {
       for each (var item:* in objects) {
@@ -59,7 +59,12 @@ public class ModuleDependencyMapLoader extends URLLoader {
       }
     }
     _dependencyMap = dependencyMap;
-    dispatchEvent(new Event(MODULE_DEPENDENCY_READY));
+    dispatchEvent(new Event(MAP_DEPENDENCY_READY));
+  }
+
+  protected function removeListeners(dependencyMapLoader:URLLoader):void {
+    dependencyMapLoader.removeEventListener(Event.COMPLETE, dependencyMapLoadComplete);
+    dependencyMapLoader.removeEventListener(IOErrorEvent.IO_ERROR, dependencyMapLoadError);
   }
 }
 }

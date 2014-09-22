@@ -39,7 +39,7 @@ public class ModuleManager {
     dependencyManager.checkModuleDependency(new ModuleDependencyContext(moduleName, toContainer, loadModuleToApp))
   }
 
-  private function loadModuleToApp(dependencyContext:ModuleDependencyContext) {
+  private function loadModuleToApp(dependencyContext:ModuleDependencyContext):void {
     var moduleLoader:ModuleLoader = new ModuleLoader();
     addLoadedModule(dependencyContext.moduleName, moduleLoader);
     moduleLoader.addEventListener(ModuleEvent.ERROR, moduleLoader_errorHandler);

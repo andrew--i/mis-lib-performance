@@ -6,21 +6,20 @@ import mis.dependency.domain.*;
 
 public class LibDependencyContext extends DependencyContext {
   private var _item:DependencyItem;
-  private var _moduleContext:ModuleDependencyContext;
+  private var _parentDependencyContext:DependencyContext;
 
-  public function LibDependencyContext(item:DependencyItem, moduleContext:ModuleDependencyContext, dependencyContextReady:Function) {
-    super(dependencyContextReady);
+  public function LibDependencyContext(item:DependencyItem, parentDependencyContext:DependencyContext, dependencyContextReady:Function) {
+    super(item.artifactId, dependencyContextReady);
     _item = item;
-    _moduleContext = moduleContext;
+    _parentDependencyContext = parentDependencyContext;
   }
-
 
   public function get item():DependencyItem {
     return _item;
   }
 
-  public function get moduleContext():ModuleDependencyContext {
-    return _moduleContext;
+  public function get parentDependencyContext():DependencyContext {
+    return _parentDependencyContext;
   }
 }
 }

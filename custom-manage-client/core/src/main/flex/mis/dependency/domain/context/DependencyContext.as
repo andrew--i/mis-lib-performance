@@ -5,14 +5,20 @@ package mis.dependency.domain.context {
 public class DependencyContext {
 
   private var _dependencyContextReady:Function;
+  private var _moduleName:String;
 
 
-  public function DependencyContext(dependencyContextReady:Function) {
+  public function DependencyContext(moduleName:String, dependencyContextReady:Function) {
     _dependencyContextReady = dependencyContextReady;
+    _moduleName = moduleName;
   }
 
-  public function dependenciesForModuleReady():void {
+  public function dependenciesContextReady():void {
     _dependencyContextReady(this);
+  }
+
+  public function get moduleName():String {
+    return _moduleName;
   }
 }
 }
