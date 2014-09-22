@@ -20,27 +20,20 @@ class Service extends HttpServiceActor {
   private val indexPath = path("") | path("index.html")
 
   def route: Route = {
-    indexPath {
-      get {
+    get {
+      indexPath {
         respondWithMediaType(MediaTypes.`text/html`) {
           getFromFile("resources/index.html")
         }
-      }
-    } ~
-      path("rsls" / Rest) { resource ⇒
-        get {
-          getFromFile("resources/" + resource)
-        }
+      } ~ path("rsls" / Rest) { resource ⇒
+        getFromFile("resources/" + resource)
       } ~ path("history" / Rest) { resource ⇒
-      get {
         getFromFile("resources/history" + resource)
+      } ~ path("dependencyMap" / Rest) { resource ⇒
+        getFromFile("resources/" + resource)
+      } ~ path(Rest) { resource ⇒
+        getFromFile("resources/" + resource)
       }
-    } ~
-      path(Rest) { resource ⇒
-        get {
-          getFromFile("resources/" + resource)
-
-        }
-      }
+    }
   }
 }

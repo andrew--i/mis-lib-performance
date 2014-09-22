@@ -4,6 +4,7 @@
   <s:layout>
     <s:VerticalLayout/>
   </s:layout>
+  <s:Label text="custom load libs client"/>
   <s:HGroup>
     <s:Button label="Module 1" click="tabButtonClickHandler(event)" id="tabButton1"/>
     <s:Button label="Module 2" click="tabButtonClickHandler(event)" id="tabButton2"/>
@@ -22,7 +23,7 @@
       }
       else if (event.target == tabButton2) {
         moduleStack.selectedIndex = 1;
-        ModuleManager.instance.loadModule(module1Content, "m2.swf")
+        ModuleManager.instance.loadModule(module2Content, "m2.swf")
       }
     }
     ]]></fx:Script>

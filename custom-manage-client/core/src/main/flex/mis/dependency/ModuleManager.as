@@ -2,6 +2,8 @@
  * Created by Andrew on 19.09.2014.
  */
 package mis.dependency {
+import mis.dependency.domain.DependencyContext;
+
 import mx.core.IVisualElementContainer;
 import mx.events.ModuleEvent;
 
@@ -9,6 +11,7 @@ import spark.modules.ModuleLoader;
 
 public class ModuleManager {
   private var loadedModules:Array = [];
+  private var dependencyManager:DependencyManager = new DependencyManager();
 
   private static var _instance:ModuleManager;
   public static function get instance():ModuleManager {
@@ -33,19 +36,29 @@ public class ModuleManager {
     var loadedModule:ModuleLoader = getLoadedModule(moduleName);
     if (loadedModule != null)
       return;
+    dependencyManager.checkModuleDependency(new DependencyContext(moduleName, toContainer, loadModuleToApp))
+  }
+
+  private function loadModuleToApp(dependencyContext:DependencyContext) {
     var moduleLoader:ModuleLoader = new ModuleLoader();
-    addLoadedModule(moduleName, moduleLoader);
+    addLoadedModule(dependencyContext.moduleName, moduleLoader);
     moduleLoader.addEventListener(ModuleEvent.ERROR, moduleLoader_errorHandler);
     moduleLoader.addEventListener(ModuleEvent.READY, moduleLoader_readyHandler);
-    toContainer.addElement(moduleLoader);
-    moduleLoader.loadModule(moduleName)
+    dependencyContext.container.addElement(moduleLoader);
+    moduleLoader.loadModule(dependencyContext.moduleName)
   }
 
   private function moduleLoader_errorHandler(event:ModuleEvent):void {
+    var moduleLoader:ModuleLoader = ModuleLoader(event.target);
+    moduleLoader.removeEventListener(ModuleEvent.ERROR, moduleLoader_errorHandler);
+    moduleLoader.removeEventListener(ModuleEvent.READY, moduleLoader_readyHandler);
     trace("module load error : " + event.errorText)
   }
 
   private function moduleLoader_readyHandler(event:ModuleEvent):void {
+    var moduleLoader:ModuleLoader = ModuleLoader(event.target);
+    moduleLoader.removeEventListener(ModuleEvent.ERROR, moduleLoader_errorHandler);
+    moduleLoader.removeEventListener(ModuleEvent.READY, moduleLoader_readyHandler);
     trace("module ready : " + event.module.ready)
   }
 }

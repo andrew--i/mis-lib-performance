@@ -27,20 +27,4 @@
       </plugin>
     </plugins>
   </build>
-  <dependencies>
-    <dependency>
-      <groupId>mis</groupId>
-      <artifactId>custom-client-lib1</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <type>swc</type>
-      <scope>internal</scope>
-    </dependency>
-    <dependency>
-      <groupId>mis</groupId>
-      <artifactId>custom-client-lib2</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <type>swc</type>
-      <scope>internal</scope>
-    </dependency>
-  </dependencies>
 </project>

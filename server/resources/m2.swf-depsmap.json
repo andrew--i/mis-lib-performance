@@ -1,0 +1,12 @@
+[
+    {
+        "artifactId": "custom-client-lib1",
+        "version": "1.0-SNAPSHOT",
+        "packaging": "swc"
+    },
+    {
+        "artifactId": "custom-client-lib2",
+        "version": "1.0-SNAPSHOT",
+        "packaging": "swc"
+    }
+]

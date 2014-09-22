@@ -4,6 +4,7 @@
   <s:layout>
     <s:VerticalLayout/>
   </s:layout>
+  <s:Label text="rsl client"/>
   <s:HGroup>
     <s:Button label="Module 1" click="tabButtonClickHandler(event)" id="tabButton1"/>
     <s:Button label="Module 2" click="tabButtonClickHandler(event)" id="tabButton2"/>
