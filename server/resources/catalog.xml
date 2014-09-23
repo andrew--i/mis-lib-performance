@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding ="utf-8"?>
+<swc xmlns="http://www.adobe.com/flash/swccatalog/9">
+  <versions>
+    <swc version="1.2" />
+    <flex version="4.13.0" build="20140701" minimumSupportedVersion="4.0.0" />
+  </versions>
+  <features>
+    <feature-script-deps />
+    <feature-files />
+  </features>
+  <libraries>
+    <library path="library.swf">
+      <script name="_mis_BigLabelFromLib1WatcherSetupUtil" mod="1411461299800" signatureChecksum="5308497" >
+        <def id="_mis_BigLabelFromLib1WatcherSetupUtil" /> 
+        <dep id="mx.binding:PropertyWatcher" type="e" /> 
+        <dep id="mis:BigLabelFromLib1" type="e" /> 
+        <dep id="mx.core:IFlexModuleFactory" type="s" /> 
+        <dep id="AS3" type="n" /> 
+        <dep id="Object" type="i" /> 
+        <dep id="mx.binding:IWatcherSetupUtil2" type="i" /> 
+      </script>
+      <script name="mis/BigLabelFromLib1" mod="1411115363631" signatureChecksum="63963546" >
+        <def id="mis:BigLabelFromLib1" /> 
+        <dep id="spark.components:Label" type="e" /> 
+        <dep id="_mis_BigLabelFromLib1WatcherSetupUtil" type="e" /> 
+        <dep id="mx.binding:Binding" type="e" /> 
+        <dep id="flash.utils:getDefinitionByName" type="e" /> 
+        <dep id="mx.events:PropertyChangeEvent" type="e" /> 
+        <dep id="mx.binding:BindingManager" type="e" /> 
+        <dep id="mx.core:IFlexModuleFactory" type="s" /> 
+        <dep id="spark.components:Label" type="s" /> 
+        <dep id="mx.binding:IWatcherSetupUtil2" type="s" /> 
+        <dep id="AS3" type="n" /> 
+        <dep id="mx.core:mx_internal" type="n" /> 
+        <dep id="flash.events:IEventDispatcher" type="i" /> 
+        <dep id="mx.binding:IBindingClient" type="i" /> 
+        <dep id="spark.components:VGroup" type="i" /> 
+      </script>
+      <script name="_6a465b35773730b3fc5157ead61a373b843bff588becfe68503302cd9ded5877_flash_display_Sprite" mod="1411461299831" signatureChecksum="1266448983" >
+        <def id="_6a465b35773730b3fc5157ead61a373b843bff588becfe68503302cd9ded5877_flash_display_Sprite" /> 
+        <dep id="flash.system:Security" type="e" /> 
+        <dep id="AS3" type="n" /> 
+        <dep id="flash.display:Sprite" type="i" /> 
+      </script>
+      <digests>
+        <digest type="SHA-256" signed="false" value="acbad78a1492771c748e914d1f45c6a1b00de5de4e23c24e9141fea6c4e11927"   />
+      </digests>
+    </library>
+  </libraries>
+  <files>
+  </files>
+</swc>
