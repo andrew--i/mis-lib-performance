@@ -26,7 +26,7 @@ public class DependencyLibLoader extends Loader {
   }
 
   public function loadLib():void {
-    var urlRequest:URLRequest = new URLRequest(dependencyLibItem.artifactId.replace("custom", "rsl") + "-" + dependencyLibItem.version + ".swf");
+    var urlRequest:URLRequest = new URLRequest(dependencyLibItem.artifactId + "-" + dependencyLibItem.version + ".swf");
     contentLoaderInfo.addEventListener(Event.COMPLETE, loaderDependencyLibCompleteHandler);
     contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, loaderDependencyLibErrorHandler);
     load(urlRequest, new LoaderContext(false, ApplicationDomain.currentDomain, SecurityDomain.currentDomain));
