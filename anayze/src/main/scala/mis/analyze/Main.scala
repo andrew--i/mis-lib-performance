@@ -5,7 +5,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 object Main {
-  val resultDirFileName: String = "D:\\Projects\\MIS\\models\\ClientPerfomanceTesting\\results\\1"
+  val resultDirFileName: String = "D:\\Projects\\MIS\\models\\mis-lib-performance\\results\\module2-module1"
+  val resultGroups: List[String] = List("current", "rsl", "custom")
 
   case class Result(name: String, time: Date, millis: Double, memory: Double)
 
@@ -86,21 +87,55 @@ object Main {
   }
 
   def main(args: Array[String]) {
-    val origResults: Map[String, Array[Result]] = createMapResult("orig")
-    val resResults: Map[String, Array[Result]] = createMapResult("res")
+    val mapResultGroups = resultGroups.foldLeft(Map.empty[String, Array[Result]])((m, i) => m + (i -> createAverageResult(createMapResult(i))))
+    val mainResultGroupName: String = resultGroups(0)
+    val mainAverageResult = mapResultGroups.getOrElse(mainResultGroupName, null)
 
-    val averageOrigResult: Array[Result] = createAverageResult(origResults)
-    val averageResResult: Array[Result] = createAverageResult(resResults)
+    val stateWidth = 25
+    val colWidth = 15
 
-    println("STATE_NAME \t|\t MILLIS \t|\t MEMORY")
+    for (groupName <- mapResultGroups.keys) {
+      if (!groupName.equals(mainResultGroupName)) {
+        println()
+        println()
+        println("difference between " + mainResultGroupName + " and " + groupName)
+        printHeader(stateWidth, colWidth)
+        val otherGroupResults: Array[Result] = mapResultGroups.getOrElse(groupName, null)
+        val diffResult: Array[Result] = createDiffResult(mainAverageResult, otherGroupResults)
+        diffResult.sortBy(r => r.time)
+          .foreach(r => {
+          val oR: Result = mainAverageResult.find(i => i.name.equalsIgnoreCase(r.name)).get
+          val rR: Result = otherGroupResults.find(i => i.name.equalsIgnoreCase(r.name)).get
+          val formattedName: String = fillWithSpaces(r.name, stateWidth)
+          val oRMillisFormatted: String = fillWithSpaces(oR.millis.toString, colWidth)
+          val rRMillisFormatted: String = fillWithSpaces(rR.millis.toString, colWidth)
+          val rMillisFormatted: String = fillWithSpaces(r.millis.toString, colWidth)
+          val oRMemoryFormatted: String = fillWithSpaces(oR.memory.toString, colWidth)
+          val rRMemoryFormatted: String = fillWithSpaces(rR.memory.toString, colWidth)
+          val rMemoryFormatted: String = fillWithSpaces(r.memory.toString, colWidth)
+          println(formattedName + "\t|\t" + oRMillisFormatted + "\t|\t" + rRMillisFormatted + "\t|\t" + rMillisFormatted
+            + "\t|\t" + oRMemoryFormatted + "\t|\t" + rRMemoryFormatted + "\t|\t" + rMemoryFormatted)
+        })
+      }
+    }
+  }
 
-    val diffResult: Array[Result] = createDiffResult(averageOrigResult, averageResResult)
-    diffResult.sortBy(r => r.time)
-      .foreach(r => {
-      val oR: Result = averageOrigResult.find(i => i.name.equalsIgnoreCase(r.name)).get
-      val rR: Result = averageResResult.find(i => i.name.equalsIgnoreCase(r.name)).get
-      println(r.name + "\t|\t" + oR.millis + "\t|\t" + rR.millis + "\t|\t" + r.millis + "\t|\t" + oR.memory + "\t|\t" + rR.memory + "\t|\t" +r.memory)
-    })
+  def printHeader(stateWidth: Int, colWidth: Int) {
+    val header: String = fillWithSpaces("STATE_NAME", stateWidth) + "\t|\t" +
+      fillWithSpaces("MILLIS, t1", colWidth) + "\t|\t" +
+      fillWithSpaces("MILLIS, t2", colWidth) + "\t|\t" +
+      fillWithSpaces("MILLIS, t1 - t2", colWidth) + "\t|\t" +
+      fillWithSpaces("MEMORY, m1", colWidth) + "\t|\t" +
+      fillWithSpaces("MEMORY, m2", colWidth) + "\t|\t" +
+      fillWithSpaces("MEMORY, m1 - m2", colWidth)
+    println(header)
+    for (i <- 1 to (header.length + 2 * 7))
+      print("-")
+    println()
+  }
+
+  def fillWithSpaces(str: String, length: Int): String = {
+    String.format("%1$" + length + "s", str)
   }
 
   def createAverageResult(results: Map[String, Array[Result]]): Array[Result] = {
